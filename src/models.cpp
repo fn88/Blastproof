@@ -32,9 +32,9 @@ Model load_model(const char *model_file, const char *texture_file)
 void load_level_models()
 {
     level_models[0] = load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png");  // level_floor
-    level_models[1] = load_model("resources/models/box.obj", "resources/textures/floor_texture.png");          // box
+    level_models[1] = load_model("resources/models/box1.obj", "resources/textures/floor_texture.png");          // box
     level_models[2] = load_model("resources/models/blenderXYZwidget.obj", "resources/textures/blenderXYZwidgetTexture.png");  // xyzwidget
-    level_models[3] = load_model("resources/models/bullet.obj", "resources/textures/car1_texture.png");  // bullet
+    level_models[3] = load_model("resources/models/bullet.obj", "resources/textures/bullet_texture.png");  // bullet
 
     //level_models[4] = load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png");
     //level_models[5] = load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png");

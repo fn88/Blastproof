@@ -1,14 +1,13 @@
 #pragma once
-//#include "raylib.h"
-//#include "raymath.h"
-//#include "set_up.h"
+
 
 extern float mousePosX;
 extern float mousePosY;
 extern float mouseDistX;
 extern float mouseDistY;
+extern float mouse_theta; 
+extern float mouse_phi;
 
-extern float theta; 
-extern float phi;
+extern int fps_counter;
 
 void game_update();

@@ -13,7 +13,7 @@
 void draw_player()
 {
     DrawModel(player.model, player.pos, 1.0f, WHITE);
-    DrawBoundingBox(player.BB, RED);
+    //DrawBoundingBox(player.BB, RED);
 }
 
 
@@ -24,16 +24,22 @@ void draw_enemies()
 }
 
 
-
 void draw_projectiles()
 {
-    if ( !bullets.empty() )
+    if (!bullets.empty())
     {
         for (auto it = bullets.begin(); it < bullets.end(); it++)
         {
             level_models[3].transform = MatrixRotateXYZ({0.0f, (*it).phi, -(*it).theta});
-            DrawModel(level_models[3], (*it).pos, 1.0f, YELLOW);
+            DrawModel(level_models[3], (*it).pos, 1.0f, WHITE);
             //DrawBoundingBox((*it).BB, WHITE);
+        }
+    }
+    if (!bullet_sparks.empty())
+    {
+        for (auto it = bullet_sparks.begin(); it < bullet_sparks.end(); it++)
+        {
+            DrawModel((*it).model, (*it).pos, 0.1f, WHITE);
         }
     }
 }
@@ -52,7 +58,6 @@ void draw_level()
         //DrawBoundingBox((*it).BB, RED);
     }
 }
-
 
 
 void draw_everything()
@@ -81,7 +86,6 @@ void draw_everything()
         DrawText(TextFormat("player.speed: %01f", player.speed), 50, 490, 30, {255, 255, 255, 100});
         DrawText(TextFormat("enemyONE.theta: %01f", enemyONE.theta*180/PI), 50, 520, 30, {255, 255, 255, 100});
         DrawText(TextFormat("new_path_theta: %01f", new_path_theta), 50, 550, 30, {255, 255, 255, 100});
-        DrawText(TextFormat("bullets: %02i", bulletsSIZE), 50, 580, 30, {255, 255, 255, 100});
 
       
     }

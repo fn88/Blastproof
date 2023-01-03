@@ -6,6 +6,8 @@
 #include "game_update.h"
 #include "audio.h"
 
+#include <iostream>
+
 
 entity_Obj player{0};
 
@@ -86,8 +88,8 @@ void update_player_dir()
 
     if (IsMouseButtonDown(1))
     {
-        cam_theta -= theta;
-        cam_phi -= phi;
+        cam_theta -= mouse_theta;
+        cam_phi -= mouse_phi;
         cam.position.x = player.pos.x;
         cam.position.y = player.pos.y;
         cam.position.z = player.pos.z + 4.0f;
@@ -132,13 +134,13 @@ void update_player_controls()
 
     if (IsKeyDown(KEY_A)) 
     {
-        if (player.moving_in_reverse) player.theta -= 0.03f;
-        else if (player.moving) player.theta += 0.03f;
+        if (player.moving_in_reverse) player.theta -= 0.01f;
+        else if (player.moving) player.theta += 0.01f;
     }
     if (IsKeyDown(KEY_D)) 
     {   
-        if (player.moving_in_reverse) player.theta += 0.03f;
-        else if (player.moving) player.theta -= 0.03f;
+        if (player.moving_in_reverse) player.theta += 0.01f;
+        else if (player.moving) player.theta -= 0.01f;
     }
 
     if (IsKeyPressed(KEY_SPACE))
@@ -184,9 +186,10 @@ void update_player_controls()
 
     if (IsMouseButtonDown(0))
     {
-        bullets.push_back(simple_projectile{player.pos, update_BB_pos(bullet_size, player.pos), player.theta, player.phi});
-        //PlaySound(sounds["bullet_shot1"]);
-        PlaySoundMulti(bullet_shots[rnd(0, 3)]);
+        if ( fps_counter%5 == 1 )
+        {
+            shoot_bullet({player.pos.x, player.pos.y, player.pos.z + 1.0f}, player.theta, player.phi);
+        }
     }
 }
 
