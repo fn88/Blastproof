@@ -29,7 +29,7 @@ int main()
     set_up_window();
     set_up_cam();
     create_player();
-    create_enemyONE();
+    create_enemies(5);
     load_level_models();
     load_sounds();
 
@@ -43,7 +43,7 @@ int main()
     {
         game_update();
         update_player();
-        update_enemyONE();
+        update_enemies();
         update_projectiles();
         all_collisions();
         draw_everything();

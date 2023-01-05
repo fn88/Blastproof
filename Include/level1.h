@@ -4,17 +4,10 @@
 #include <vector>
 using namespace std;
 
-
-struct model_Obj {
-                    Model model;
-                    Vector3 size;
-                    Vector3 pos;
-                    BoundingBox BB;
-                    Color color;
-};      
-
+extern vector<model_Obj> level_objects;
+extern vector<model_Obj> * ptr_level_objects;
 extern int const level_size;
-extern vector<model_Obj>generated_buildings;
+extern vector<model_Obj> generated_buildings;
 extern vector<model_Obj> * ptr_generated_buildings;
 
 void gen_floor();

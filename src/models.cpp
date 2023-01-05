@@ -3,10 +3,7 @@
 #include "raymath.h"
 
 
-//map<string, Model> level_models;
 Model level_models[4];
-std::vector<seed_Obj>level_objects{};
-std::vector<seed_Obj> * ptr_level_objects = &level_objects;
 
 
 BoundingBox update_BB_pos(Vector3 size, Vector3 pos)
@@ -39,13 +36,5 @@ void load_level_models()
     //level_models[4] = load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png");
     //level_models[5] = load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png");
 
-
-
-    //level_models.insert(pair<string, Model>("floor", load_model("resources/models/level_floor.obj", "resources/textures/floor_texture.png")));
-    //level_models.insert(pair<string, Model>("wallX", load_model("resources/models/wallX.obj", "resources/textures/floor_texture.png")));
-    //level_models.insert(pair<string, Model>("wallY", load_model("resources/models/wallY.obj", "resources/textures/floor_texture.png")));
-    //level_models.insert(pair<string, Model>("box", load_model("resources/models/box1.obj", "resources/textures/floor_texture.png")));
-    //level_models.insert(pair<string, Model>("XYZ", load_model("resources/models/blenderXYZwidget.obj", "resources/textures/blenderXYZwidgetTexture.png")));
-    //level_models.insert(pair<string, Model>("bullets_model", load_model("resources/models/bullet.obj", "resources/textures/floor_texture.png")));
 }
     

@@ -8,10 +8,12 @@ int const Y = LEVEL_SIZE;
 int level_X;   // in meters
 int level_Y; 
 
-
+vector<model_Obj> level_objects{};
+vector<model_Obj> * ptr_level_objects = &level_objects;
 Vector3 floor_locs[X][Y]; 
 vector<model_Obj> generated_buildings{};
 vector<model_Obj> * ptr_generated_buildings = &generated_buildings;
+
 
 
 void gen_floor()
@@ -28,7 +30,7 @@ void gen_floor()
             floor_locs[w][h].y = (floor_tile_size.y * h) + floor_tile_size.y/2;
             floor_locs[w][h].z = 0.0f;
             BoundingBox BBfloor_tile= update_BB_pos(floor_tile_size, floor_locs[w][h]);
-            level_objects.push_back(seed_Obj{floor_tile_size, floor_locs[w][h], BBfloor_tile, 0, GREEN});
+            level_objects.push_back(model_Obj{level_models[0], floor_tile_size, floor_locs[w][h], BBfloor_tile, GREEN});
         }
     }
 }
@@ -143,17 +145,17 @@ void place_some_models()  // just temporary random models/objects
     Vector3 size1 = {BB1.max.x - BB1.min.x, BB1.max.y - BB1.min.y, BB1.max.z - BB1.min.z};
     Vector3 pos1 = {300.0, 300.0, 30.0};
     BB1 = update_BB_pos(size1, pos1);
-    level_objects.push_back(seed_Obj{size1, pos1, BB1, 2, WHITE});
+    level_objects.push_back(model_Obj{level_models[2], size1, pos1, BB1, WHITE});
 
     BoundingBox BB = GetModelBoundingBox(level_models[1]);
     Vector3 size = {BB.max.x - BB.min.x, BB.max.y - BB.min.y, BB.max.z - BB.min.z};
     Vector3 pos = {50.0, 50.0, 2.0};
     BB = update_BB_pos(size, pos);
-    level_objects.push_back(seed_Obj{size, pos, BB, 1, WHITE});
+    level_objects.push_back(model_Obj{level_models[1], size, pos, BB, WHITE});
 
     BoundingBox BB2 = GetModelBoundingBox(level_models[3]);
     Vector3 size2 = {BB2.max.x - BB2.min.x, BB2.max.y - BB2.min.y, BB2.max.z - BB2.min.z};
     Vector3 pos2 = {70.0, 70.0, 2.0};
     BB2 = update_BB_pos(size2, pos2);
-    level_objects.push_back(seed_Obj{size2, pos2, BB2, 3, WHITE});
+    level_objects.push_back(model_Obj{level_models[3], size2, pos2, BB2, WHITE});
 }

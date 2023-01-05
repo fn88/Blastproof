@@ -19,8 +19,11 @@ void draw_player()
 
 void draw_enemies()
 {
-    DrawModel(enemyONE.model, enemyONE.pos, 1.0f, WHITE);
-    DrawBoundingBox(enemyONE.BB, RED);
+    for (auto it = enemies.begin(); it < enemies.end(); it++)
+    {
+        DrawModel((*it).model, (*it).pos, 1.0f, WHITE);
+        DrawBoundingBox((*it).BB, RED);
+    }
 }
 
 
@@ -49,7 +52,7 @@ void draw_level()
 {
     for (auto it = level_objects.begin(); it < level_objects.end(); it++)
     {
-        DrawModel(level_models[(*it).model_index], (*it).pos, 1.0f, (*it).color);
+        DrawModel((*it).model, (*it).pos, 1.0f, (*it).color);
         //DrawBoundingBox((*it).BB, WHITE);
     }
     for (auto it = generated_buildings.begin(); it < generated_buildings.end(); it++)
@@ -84,10 +87,9 @@ void draw_everything()
         DrawText(TextFormat("player.mobing_in_reverse: %02i", int(player.moving_in_reverse)), 50, 400, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.theta: %01f", player.theta*180/PI), 50, 460, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.speed: %01f", player.speed), 50, 490, 30, {255, 255, 255, 100});
-        DrawText(TextFormat("enemyONE.theta: %01f", enemyONE.theta*180/PI), 50, 520, 30, {255, 255, 255, 100});
+        //DrawText(TextFormat("enemyONE.theta: %01f", enemyONE.theta*180/PI), 50, 520, 30, {255, 255, 255, 100});
         DrawText(TextFormat("new_path_theta: %01f", new_path_theta), 50, 550, 30, {255, 255, 255, 100});
 
-      
     }
 
 

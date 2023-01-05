@@ -6,8 +6,8 @@
 void all_collisions();
 void player_collisions();
 void enemies_collisions();
-void gravity_collisions(entity_Obj * ptr_entity, vector<seed_Obj> * placed_objects);
-void collisions(entity_Obj * ptr_entity, vector<seed_Obj> * placed_objects);
-void collisions_generated(entity_Obj * ptr_entity, vector<model_Obj> * generated_models);
-void entity_collisions(entity_Obj * e1, entity_Obj * e2);
+void gravity_collisions(entity_Obj &entity, vector<model_Obj> * placed_objects);
+void collisions(entity_Obj &entity, vector<model_Obj> * placed_objects);
+void collisions_generated(entity_Obj &entity, vector<model_Obj> * generated_models);
+void entity_collisions(entity_Obj &e1, entity_Obj &e2);
 

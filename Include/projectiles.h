@@ -4,14 +4,6 @@
 using namespace std;
 
 
-/*struct particleA {
-                    Vector3 pos;
-                    unsigned int dur;
-                    float speed;
-                    float theta;
-                    float phi;
-};*/
-
 struct simple_projectile {
                             Model model;
                             Vector3 pos;

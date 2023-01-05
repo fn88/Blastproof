@@ -6,7 +6,6 @@
 #include "set_up.h"
 
 
-
 vector<simple_projectile> bullets{};
 vector<simple_projectile> bullet_sparks{};  // explosion sparks upon hit/impact
 Vector3 bullet_size = {1.0f, 1.0f, 1.0f};  // bigger than model size for BB/collisions
@@ -23,10 +22,9 @@ void shoot_bullet(Vector3 pos, float theta, float phi)
     PlaySoundMulti(bullet_shots[rnd(0, 3)]);
 }
 
-
 void bullet_sparks_made(Vector3 pos)
 {
-    int a = rnd(50, 100);  // number of sparks
+    int a = rnd(5, 10);  // number of sparks
     for (int i = 0; i < a; i++)
     {
         unsigned int bs_total_dur = rnd(3, 10);
@@ -39,9 +37,8 @@ void bullet_sparks_made(Vector3 pos)
         bullet_sparks.push_back(simple_projectile{bs, pos, update_BB_pos(bullet_size, pos), bs_total_dur, bs_cur_dur, bs_speed, bs_theta, bs_phi});
     }
 }
-
-
-void bullets_collisions()
+//-------------------------------------------
+void bc_generated_buildings()
 {
     if (!bullets.empty())
     {
@@ -64,32 +61,58 @@ void bullets_collisions()
                 }
             }
         }
-       for (auto it1 = bullets.begin(); it1 < bullets.end(); it1++)
-       {
-            if ( CheckCollisionBoxes((*it1).BB, enemyONE.BB) ) 
+    }
+}
+
+void bc_enemies()
+{
+    if (!enemies.empty())
+    {
+        for (auto it1 = bullets.begin(); it1 < bullets.end(); it1++)
+        {
+            for (auto it2 = enemies.begin(); it2 < enemies.end(); it2++)
+            {
+                if ( CheckCollisionBoxSphere((*it2).BB, (*it1).pos, (*it1).speed) )
+                {
+                    Ray b_ray = {(*it1).pos, {  cos((*it1).phi) * cos((*it1).theta), 
+                                                cos((*it1).phi) * sin((*it1).theta),
+                                                sin((*it1).phi)  } };
+                    RayCollision b_hit_spot = GetRayCollisionBox(b_ray, (*it2).BB); 
+                    if ( (b_hit_spot.distance - (*it1).speed) < 3.0f )  // <------- 3.0f temp
+                    {
+                        bullet_sparks_made(b_hit_spot.point);
+                        bullets.erase(it1);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void bc_level_objects()
+{
+    for (auto it1 = bullets.begin(); it1 < bullets.end(); it1++)
+    {
+        for (auto it2 = level_objects.begin(); it2 < level_objects.end(); it2++)
+        {
+            if ( CheckCollisionBoxes((*it1).BB, (*it2).BB) ) 
             {
                 bullet_sparks_made((*it1).pos);
                 bullets.erase(it1);
                 break;
             }
-       }
-       for (auto it1 = bullets.begin(); it1 < bullets.end(); it1++)
-       {
-            for (auto it2 = level_objects.begin(); it2 < level_objects.end(); it2++)
-            {
-                if ( CheckCollisionBoxes((*it1).BB, (*it2).BB) ) 
-                {
-                    bullet_sparks_made((*it1).pos);
-                    bullets.erase(it1);
-                    break;
-                }
-            }
-
         }
     }
 }
 
-
+void all_bullets_collisions()
+{
+    bc_generated_buildings();
+    bc_enemies();
+    bc_level_objects();
+}
+//-------------------------------------------
 void bullets_pos()
 {
     if (!bullets.empty())
@@ -111,6 +134,7 @@ void bullets_pos()
             }
         }
     }
+
     if (!bullet_sparks.empty())
     {
         for (auto it = bullet_sparks.begin(); it < bullet_sparks.end(); it++)
@@ -133,13 +157,11 @@ void bullets_pos()
 
 } 
 
-
 void update_bullets()
 {
-    bullets_collisions();
+    all_bullets_collisions();
     bullets_pos();
 }
-
 
 void update_projectiles()
 {
