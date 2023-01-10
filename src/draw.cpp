@@ -33,9 +33,9 @@ void draw_projectiles()
     {
         for (auto it = bullets.begin(); it < bullets.end(); it++)
         {
-            level_models[3].transform = MatrixRotateXYZ({0.0f, (*it).phi, -(*it).theta});
-            DrawModel(level_models[3], (*it).pos, 1.0f, WHITE);
+            DrawModel((*it).model, (*it).pos, 1.0f, WHITE);
             //DrawBoundingBox((*it).BB, WHITE);
+            DrawRay(b_ray, RED);
         }
     }
     if (!bullet_sparks.empty())
@@ -88,7 +88,7 @@ void draw_everything()
         DrawText(TextFormat("player.theta: %01f", player.theta*180/PI), 50, 460, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.speed: %01f", player.speed), 50, 490, 30, {255, 255, 255, 100});
         //DrawText(TextFormat("enemyONE.theta: %01f", enemyONE.theta*180/PI), 50, 520, 30, {255, 255, 255, 100});
-        DrawText(TextFormat("new_path_theta: %01f", new_path_theta), 50, 550, 30, {255, 255, 255, 100});
+        //DrawText(TextFormat("new_path_theta: %01f", new_path_theta), 50, 550, 30, {255, 255, 255, 100});
 
     }
 

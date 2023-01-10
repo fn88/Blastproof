@@ -29,12 +29,9 @@ int main()
     set_up_window();
     set_up_cam();
     create_player();
-    create_enemies(5);
+    create_enemies(5);  // player.id = 63
     load_level_models();
     load_sounds();
-
-    //make_temp_bullet();
-
     gen_floor();
     gen_buildings();
     place_some_models();

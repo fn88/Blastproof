@@ -13,6 +13,7 @@ entity_Obj player{0};
 
 void create_player()
 {
+    player.id = 63; 
     player.model = LoadModel("resources/models/player.obj");
     player.BB = GetModelBoundingBox(player.model);
     player.prev_BB = player.BB;
@@ -38,10 +39,6 @@ void create_player()
 }
 entity_Obj * ptr_player = &player;
 
-void update_player_BB()
-{
-    player.BB = update_BB_pos(player.size, player.pos);
-}
 
 void update_player_gravity()
 {
@@ -59,7 +56,7 @@ void update_player_gravity()
         }
         if (player.jumped) player.pos.z += 0.3f;
     }
-    update_player_BB();
+    player.BB = update_BB_pos(player.size, player.pos);
 }
 
 
@@ -181,14 +178,14 @@ void update_player_controls()
         
         if (player.gravity) player.gravity = false;
         else player.gravity = true;
-    update_player_BB();
+    player.BB = update_BB_pos(player.size, player.pos);
     }
 
     if (IsMouseButtonDown(0))
     {
         if ( fps_counter%5 == 1 )
         {
-            shoot_bullet({player.pos.x, player.pos.y, player.pos.z + 1.0f}, player.theta, player.phi);
+            shoot_bullet({player.pos.x, player.pos.y, player.pos.z}, player.theta, player.phi);
         }
     }
 }
@@ -216,6 +213,6 @@ void update_player()
     update_player_gravity();
     update_player_model();
     
-    update_player_BB();
+    player.BB = update_BB_pos(player.size, player.pos);
 
 }

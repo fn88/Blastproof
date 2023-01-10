@@ -7,17 +7,17 @@
 
 
 vector<entity_Obj> enemies{};
+int num_enemies;
 
 entity_Obj temp{0};
-int new_path_timer = 0;
-int path_dur = rnd(1, 100);
-float new_path_theta = 0.0f;
 
 
 void create_enemies(int n)
 {
     for (int i = 0; i < n; i++)
     {
+        temp.id = i;
+        temp.target;
         temp.model = LoadModel("resources/models/player.obj");
         temp.BB = GetModelBoundingBox(temp.model);
         temp.prev_BB = temp.BB;
@@ -37,10 +37,49 @@ void create_enemies(int n)
         temp.moving_in_reverse = false;
         temp.colliding = false;
 
+        temp.new_path_timer = 0;
+        temp.path_dur = rnd(1, 100);
+        temp.new_path_theta = 0.0f;
+
         Texture2D temp_model_texture = LoadTexture("resources/textures/car1_texture.png");
         temp.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = temp_model_texture;
         enemies.push_back(temp);
+
+        num_enemies = n;
     }
+}
+
+
+void pre_update_enemies()
+{
+    for (auto it = enemies.begin(); it < enemies.end(); it++)
+    {
+        (*it).prev_theta = (*it).theta;                
+        (*it).prev_phi = (*it).phi;
+        (*it).prev_pos = (*it).pos;
+        (*it).prev_BB = (*it).BB;
+    }
+}
+void aquire_target_for (int id)
+{
+    int target_id = rnd(0, num_enemies-1);
+    if (enemies.at(id).id == id) enemies.at(id).target = 63;  // if enemy's target is it's own id, make player(id=63) the target
+}
+
+void update_enemies_L1()  // Layer 1, outer, most general behaviour
+{
+    explore();
+    // escape();
+    //prowl();
+    // talk_shit();
+
+}    
+
+void explore()
+{
+    update_enemies_pathing();
+    update_enemies_dir();
+
 }
 
 
@@ -70,20 +109,20 @@ void update_enemies_pathing()  // temp
 {
     for (auto it = enemies.begin(); it < enemies.end(); it++)
     {
-        new_path_timer += 1; 
-        if ( new_path_timer >= path_dur )
+        (*it).new_path_timer += 1; 
+        if ( (*it).new_path_timer >= (*it).path_dur )
         {
-            path_dur = rnd(30, 90);
-            new_path_theta = (*it).theta + rnd(-12, 12) * PI/24;
-            new_path_timer = 0;
+            (*it).path_dur = rnd(30, 90);
+            (*it).new_path_theta = (*it).theta + rnd(-12, 12) * PI/24;
+            (*it).new_path_timer = 0;
         } 
-        if (new_path_theta < 0) new_path_theta += 2*PI;
+        if ((*it).new_path_theta < 0) (*it).new_path_theta += 2*PI;
         
-        if (new_path_theta > 2*PI) new_path_theta -= 2*PI;
-        if ( new_path_theta > (*it).theta ) (*it).theta += 0.01;
-        if ( new_path_theta < (*it).theta ) (*it).theta -= 0.01;
+        if ((*it).new_path_theta > 2*PI) (*it).new_path_theta -= 2*PI;
+        if ( (*it).new_path_theta > (*it).theta ) (*it).theta += 0.01;
+        if ( (*it).new_path_theta < (*it).theta ) (*it).theta -= 0.01;
 
-        (*it).speed += 0.005f;
+        (*it).speed += 0.003f;
         if ((*it).speed > 0) (*it).speed -= sqrt(abs((*it).speed)) * 0.01f;
         if ((*it).speed < 0) (*it).speed += sqrt(abs((*it).speed)) * 0.01f;
 
@@ -130,18 +169,22 @@ void update_enemies_model()
     }
 }
 
-//------------------------------------------------------------------------------------------
-void update_enemies()
+void post_update_enemies()
 {
     for (auto it = enemies.begin(); it < enemies.end(); it++)
     {
-        (*it).prev_theta = (*it).theta;                
-        (*it).prev_phi = (*it).phi;
-        (*it).prev_pos = (*it).pos;
-        (*it).prev_BB = (*it).BB;
-        update_enemies_pathing();
-        update_enemies_dir();
-        update_enemies_gravity();
-        update_enemies_model();
+        (*it).BB = update_BB_pos((*it).size, (*it).pos);
     }
+}
+
+//------------------------------------------------------------------------------------------
+void update_enemies()
+{
+    pre_update_enemies();
+    update_enemies_L1();
+
+    update_enemies_gravity();
+    update_enemies_model();
+
+    post_update_enemies();
 }
