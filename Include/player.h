@@ -21,24 +21,26 @@ struct entity_Obj {
                     bool grounded;
                     int time_not_grounded;
                     bool jumped;
-                    bool moving;
-                    bool moving_in_reverse;
+                    float steer;  // -/+ left/right
                     bool colliding;
+                    int health;
 
-                    int new_path_timer = 0;     ////// enemies
+                    //---------------------------
+                    int new_path_timer = 0;     
                     int path_dur = rnd(1, 100);
                     float new_path_theta = 0.0f;
+                    int foe;
+                    int attacking_dur;
+                    int exploring_dur;
 
-                    //bool attack1;
-                    //bool action1;
-                    //unsigned int anim_fc;
 };
 
 extern entity_Obj player;
 extern entity_Obj * ptr_player;
 
 void create_player();
-void update_player_dir();
+
+void pre_update_player();
 void update_player_gravity();
 void update_player_model();
 void update_player_controls();

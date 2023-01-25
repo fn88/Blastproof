@@ -29,10 +29,10 @@ void shoot_bullet(Vector3 pos, float theta, float phi)
 
 void bullet_sparks_made(Vector3 pos)
 {
-    int a = rnd(5, 10);  // number of sparks
+    int a = rnd(2, 8);  // number of sparks
     for (int i = 0; i < a; i++)
     {
-        unsigned int bs_total_dur = rnd(3, 10);
+        unsigned int bs_total_dur = rnd(1, 5);
         unsigned int bs_cur_dur = 0;
         float bs_speed = 2.0f + float(rnd(1, 10))/10;
         float bs_theta = float(rnd(1, 628)) / 100.0f;
@@ -46,6 +46,7 @@ void bullet_sparks_made(Vector3 pos)
     }
 }
 //-------------------------------------------
+
 void bc_generated_buildings()
 {
     if (!bullets.empty())
@@ -78,7 +79,7 @@ void bc_generated_buildings()
     }
 }  
 
-void bc_enemies()
+void bc_entities()
 {
     if (!enemies.empty())
     {
@@ -98,11 +99,35 @@ void bc_enemies()
                         if ( CheckCollisionBoxSphere( (*it2).BB, {bs_pos}, 1.0f) )
                         {
                             bullet_sparks_made({bs_pos});
+                            (*it2).health -= 10;
                             bullets.erase(it1);
+                            (*it2).foe = (*it1).owner_id;
                             it2 = enemies.end();
                             break;
                         }
                     }
+                }
+            }
+        }
+    }
+//--------PLAYER------------------
+    for (auto it1 = bullets.begin(); it1 < bullets.end(); it1++)
+    {
+        if ( CheckCollisionBoxSphere(player.BB, (*it1).pos, (*it1).speed) )
+        {
+            float cx = (*it1).speed * (*it1).dir.x;  
+            float cy = (*it1).speed * (*it1).dir.y;  
+            float cz = (*it1).speed * (*it1).dir.z; 
+            Vector3 p = {(*it1).pos.x + cx, (*it1).pos.y + cy, (*it1).pos.z + cz};  
+            for (int i = 0; i < 9; i++)
+            {
+                Vector3 bs_pos = { p.x - cx*(float(i)/4), p.y - cy*(float(i)/4), p.z - cz*(float(i)/4) };
+                if ( CheckCollisionBoxSphere( player.BB, {bs_pos}, 1.0f) )
+                {
+                    bullet_sparks_made({bs_pos});
+                    player.health -= 10;
+                    bullets.erase(it1);
+                    break;
                 }
             }
         }
@@ -128,7 +153,7 @@ void bc_level_objects()
 void all_bullets_collisions()
 {
     bc_generated_buildings();
-    bc_enemies();
+    bc_entities();
     //bc_level_objects();
 }
 //-------------------------------------------

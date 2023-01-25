@@ -1,8 +1,9 @@
 #include "set_up.h"
 
 
-int S_W = 1600;
-int S_H = 1000;
+
+int S_W = 3200;//GetMonitorWidth(0);
+int S_H = 2000;//GetMonitorWidth(0);
 int FPS = 60;
 float mouse_sensitivity = 3.0f;
 

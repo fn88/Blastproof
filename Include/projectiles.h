@@ -12,14 +12,13 @@ struct simple_projectile {
                             unsigned int total_dur;
                             unsigned int cur_dur;
                             float speed;
-                            //float theta;
-                            //float phi;
+                            int owner_id;
 };
 
 
 extern vector<simple_projectile> bullets;
 extern vector<simple_projectile> bullet_sparks; 
-//extern vector<vector<simple_projectile>> bullet_sparks_group;
+
 
 extern Vector3 bullet_size; 
 
@@ -27,4 +26,5 @@ extern Vector3 bullet_size;
 void shoot_bullet(Vector3 pos, float theta, float phi);
 void bullet_sparks_made(Vector3);
 void update_projectiles();
+void bc_entities();
 

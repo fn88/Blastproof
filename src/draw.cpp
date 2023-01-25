@@ -22,7 +22,7 @@ void draw_enemies()
     for (auto it = enemies.begin(); it < enemies.end(); it++)
     {
         DrawModel((*it).model, (*it).pos, 1.0f, WHITE);
-        DrawBoundingBox((*it).BB, RED);
+        //DrawBoundingBox((*it).BB, RED);
     }
 }
 
@@ -84,13 +84,10 @@ void draw_everything()
         DrawText(TextFormat("player.time_not_grounded: %02i", int(player.time_not_grounded)), 50, 280, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.pos: %01f, %01f, %01f", player.pos.x, player.pos.y, player.pos.z), 50, 310, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.prev_pos: %01f, %01f, %01f", player.prev_pos.x, player.prev_pos.y, player.prev_pos.z), 50, 340, 30, {255, 255, 255, 100});
-        DrawText(TextFormat("player.mobing_in_reverse: %02i", int(player.moving_in_reverse)), 50, 400, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.theta: %01f", player.theta*180/PI), 50, 460, 30, {255, 255, 255, 100});
         DrawText(TextFormat("player.speed: %01f", player.speed), 50, 490, 30, {255, 255, 255, 100});
-        //DrawText(TextFormat("enemyONE.theta: %01f", enemyONE.theta*180/PI), 50, 520, 30, {255, 255, 255, 100});
-        //DrawText(TextFormat("new_path_theta: %01f", new_path_theta), 50, 550, 30, {255, 255, 255, 100});
-
     }
+    DrawText(TextFormat("HEALTH: %02i", player.health), 50, 900, 30, WHITE);
 
 
     //----------------------------
